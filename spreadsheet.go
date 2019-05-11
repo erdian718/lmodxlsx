@@ -40,6 +40,10 @@ func metaSpreadsheet(l *lua.State, msheet int) int {
 	l.PushClosure(lSpreadsheetSheets, msheet)
 	l.SetTableRaw(idx)
 
+	l.Push("addsheet")
+	l.PushClosure(lSpreadsheetAddSheet, msheet)
+	l.SetTableRaw(idx)
+
 	l.Push("save")
 	l.Push(lSpreadsheetSave)
 	l.SetTableRaw(idx)
@@ -99,6 +103,13 @@ func lSpreadsheetSheets(l *lua.State) int {
 		l.SetMetaTable(-2)
 		return 2
 	}, lua.FirstUpVal-1)
+	return 1
+}
+
+func lSpreadsheetAddSheet(l *lua.State) int {
+	l.Push(toSpreadsheet(l, 1).AddSheet(l.ToString(2)))
+	l.PushIndex(lua.FirstUpVal - 1)
+	l.SetMetaTable(-2)
 	return 1
 }
 
