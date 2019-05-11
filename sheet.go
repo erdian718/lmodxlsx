@@ -86,6 +86,10 @@ func metaSheet(l *lua.State, mcell, mrow, mcol, mrange int) int {
 	l.Push(lSheetSet)
 	l.SetTableRaw(idx)
 
+	l.Push("close")
+	l.Push(lSheetClose)
+	l.SetTableRaw(idx)
+
 	l.Push("__index")
 	l.PushClosure(lSheetIndex, idx)
 	l.SetTableRaw(idx)
@@ -235,6 +239,11 @@ func lSheetSet(l *lua.State) int {
 			Visibility: options.VisibilityTypeVeryHidden,
 		})
 	}
+	return 0
+}
+
+func lSheetClose(l *lua.State) int {
+	toSheet(l, 1).Close()
 	return 0
 }
 

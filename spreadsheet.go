@@ -70,7 +70,11 @@ func lSpreadsheetSheet(l *lua.State) int {
 		}
 	}
 	if index >= 0 {
-		sheet = spreadsheet.Sheet(index)
+		if l.ToBoolean(3) {
+			sheet = spreadsheet.Sheet(index, xlsx.SheetModeStream)
+		} else {
+			sheet = spreadsheet.Sheet(index)
+		}
 	}
 	if sheet == nil {
 		return 0
