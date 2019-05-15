@@ -49,13 +49,18 @@ Converts Lua time value to XLSX number value.
 
 Converts XLSX number value to Lua time value.
 
-### spreadsheet:sheet(x)
+### spreadsheet:sheet(x[, stream])
 
 Returns a sheet by index or name.
+If `stream` is `true`, only forward reading/writing is allowed.
 
 ### spreadsheet:sheets()
 
 Returns iterator for all sheets of spreadsheet.
+
+### spreadsheet:addsheet(name)
+
+Adds a new sheet with `name` to document.
 
 ### spreadsheet:save([name])
 
@@ -120,6 +125,10 @@ Sets options for sheet.
 active: boolean
 visibility: 'visible' | 'hidden' | 'veryhidden'
 ```
+
+### sheet:close()
+
+Frees allocated by sheet resources.
 
 ### sheet.name
 
