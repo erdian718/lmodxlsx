@@ -85,17 +85,17 @@ func lOpen(l *lua.State) int {
 }
 
 func lFromTime(l *lua.State) int {
-	v := l.ToFloat(1)
-	l.Push(v/86400 + 25569)
+	v := l.GetRaw(1).(time.Time).Unix()
+	l.Push(float64(v)/86400 + 25569)
 	return 1
 }
 
 func lToTime(l *lua.State) int {
 	if v, err := l.TryFloat(1); err == nil {
-		l.Push(int64(86400 * (v - 25569)))
+		l.Push(time.Unix(int64(86400*(v-25569)), 0))
 	} else {
 		t, _ := time.Parse("2006-01-02T15:04:05", l.ToString(1))
-		l.Push(t.Unix())
+		l.Push(t)
 	}
 	return 1
 }
